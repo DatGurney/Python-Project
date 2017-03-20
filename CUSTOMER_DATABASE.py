@@ -75,9 +75,10 @@ def delete_entry(name, filename = "customer_database.db"):
     conn.commit()
 
 if __name__ == "__main__":
-    Customers = "1", "John", "01423772291", "4 new row harrogate"
+    Client, Phone, Address = "John", "01423772291", "4 new row harrogate"
     create_table_customer(filename="test.db")
-    insert_customers_table()
+    insert_customers_table(Client,Phone,Address, filename="test.db")
+    print_database(filename="test.db")
     return_table(filename="test.db")
 
 
