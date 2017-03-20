@@ -5,20 +5,20 @@ def create_table_customer(filename = 'customer_database.db'):
     c = conn.cursor()
 
     c.execute("DROP TABLE IF EXISTS customers") #Delete table if it exists
-    c.execute("CREATE TABLE IF NOT EXISTS customers(Name text, Phone_Number text, Address text)")
+    c.execute("CREATE TABLE IF NOT EXISTS customers(CustomerID integer PRIMARY KEY, Name text, Phone_Number text, Address text)")
 
 def insert_customers_table(client, phone, address, filename = "customer_database.db"):
     conn = SQL.connect(filename)
     c = conn.cursor()
 
-    c.execute("INSERT INTO customers VALUES ('%s', '%s', '%s')"%(client, phone, address))
+    c.execute("INSERT INTO customers (Name, Phone_Number, Address) VALUES ('%s', '%s', '%s')"%(client, phone, address))
     conn.commit()
 
 def load_customers(Customers, filename = "customer_database.db"):
     conn = SQL.connect(filename)
     c = conn.cursor()
 
-    SQL_select = "SELECT * FROM customers"
+    SQL_select = "SELECT Name, Phone_Number, Address FROM customers"
 
     for row in c.execute(SQL_select):
         Customers.append([row[0],row[1],row[2],row[3]])
@@ -75,9 +75,10 @@ def delete_entry(name, filename = "customer_database.db"):
     conn.commit()
 
 if __name__ == "__main__":
-    Customers = [["1", "John", "01423772291", "4 new row harrogate"],["2", "Sam Can Ham","04321234424","2 harlow carr"]]
-    create_table_customer()
-    return_table()
+    Customers = "1", "John", "01423772291", "4 new row harrogate"
+    create_table_customer(filename="test.db")
+    insert_customers_table()
+    return_table(filename="test.db")
 
 
 
