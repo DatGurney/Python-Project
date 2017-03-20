@@ -14,8 +14,7 @@ def insert_jobs_table(CustomerID, Cost, Description, filename = "stack_database.
     conn = SQL.connect(filename)
     c = conn.cursor()
 
-    for item in Passwords:
-        c.execute("INSERT INTO jobs (customerID, cost, jobDesc VALUES ('%s','%s','%s',)"%(item[0], item[1]),)
+    c.execute("INSERT INTO jobs (customerID, cost, jobDesc) VALUES ('%s','%s','%s',)"%(CustomerID, Cost, Description)
     conn.commit()
 
 def select_usernames_table(Passwords, filename = "stack_database.db"):
