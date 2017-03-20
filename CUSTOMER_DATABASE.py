@@ -35,8 +35,6 @@ def return_table(filename = "customer_database.db"):
         print("hi")
     return list
 
-
-
 def print_database(filename = "customer_database.db"):
     conn = SQL.connect(filename)
     c = conn.cursor()
