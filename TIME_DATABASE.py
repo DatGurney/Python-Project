@@ -1,42 +1,33 @@
 import sqlite3 as SQL
 
-def create_table_usernames(filename = 'stack_database.db'):
+def create_table_time(filename = 'customer_database.db'):
     conn = SQL.connect(filename)
     c = conn.cursor()
 
-    #c.execute("DROP TABLE IF EXISTS usernames") #Delete table if it exists
-    c.execute("CREATE TABLE IF NOT EXISTS usernames(usernames text, password text)")
-
-def insert_usernames_table(Passwords, filename = "stack_database.db"):
-    conn = SQL.connect(filename)
-    c = conn.cursor()
-
-    for item in Passwords:
-        c.execute("INSERT INTO usernames VALUES ('%s', '%s')"%(item[0], item[1]),)
-    conn.commit()
-
-def select_usernames_table(Passwords, filename = "stack_database.db"):
-    conn = SQL.connect(filename)
-    c = conn.cursor()
-
-    SQL_select = "SELECT username, password FROM usernames"
-
-    for row in c.execute(SQL_select):
-        Passwords.append([row[0],row[1]])
+    #c.execute("DROP TABLE IF EXISTS jobs") #Delete table if it exists
+    c.execute("CREATE TABLE IF NOT EXISTS time(timeID integer PRIMARY KEY, jobID int, hours decimal)")
 
     conn.commit()
 
-def print_database(filename = "stack_database.db"):
+
+def insert_time_table(hours, filename = "customer_database.db"):
     conn = SQL.connect(filename)
     c = conn.cursor()
 
-    print('Users Data')
-    for row in c.execute('SELECT * FROM usernames'):
+    c.execute("INSERT INTO time(hours) VALUES (?)",(hours))
+    conn.commit()
+
+def print_database(filename = "customer_database.db"):
+    conn = SQL.connect(filename)
+    c = conn.cursor()
+
+    print('Job Data')
+    for row in c.execute('SELECT * FROM jobs'):
         print(row)
     print()
 
     print("User Columns")
-    for row in c.execute(("PRAGMA table_info(usernames)")):
+    for row in c.execute(("PRAGMA table_info(jobs)")):
         print(row)
     print()
 
@@ -45,12 +36,28 @@ def print_database(filename = "stack_database.db"):
         print(row)
     print()
 
+def return_time(filename = "customer_database.db"):
+    conn = SQL.connect(filename)
+    c = conn.cursor()
+
+    list = []
+    for row in c.execute("SELECT jobID FROM jobs"):
+        print(row[0])
+        print("hi")
+        list.append(row[0])
+    return list
+
+
 if __name__ == "__main__":
-    Passwords = [["DST", "Password1"],["KLN", "Password2"]]
-    create_table_usernames(filename = 'test.db')
-    insert_usernames_table(Passwords, filename = "test.db")
+    hours = 120
+
+    create_table_time(filename = 'test.db')
+    insert_time_table(hours, filename = "test.db")
     print_database(filename="test.db")
 
+    print(return_time(filename="test.db"))
+
+    create_table_time()
 
 
 
