@@ -26,6 +26,16 @@ def print_database(filename = "customer_database.db"):
         print(row)
     print()
 
+    print('Customer Data')
+    for row in c.execute('SELECT * FROM customers'):
+        print(row)
+    print()
+
+    print('Time Data')
+    for row in c.execute('SELECT * FROM time'):
+        print(row)
+    print()
+
     print("User Columns")
     for row in c.execute(("PRAGMA table_info(jobs)")):
         print(row)
@@ -41,23 +51,39 @@ def return_jobs(filename = "customer_database.db"):
     c = conn.cursor()
 
     list = []
-    for row in c.execute("SELECT jobID FROM jobs"):
-        print(row[0])
+    for row in c.execute("SELECT * FROM jobs"):
+        print(row)
         print("hi")
-        list.append(row[0])
+        list.append(row)
     return list
+
+def delete_entry(jobID, filename = "customer_database.db"):
+    conn = SQL.connect(filename)
+    c = conn.cursor()
+
+    c.execute("DELETE FROM jobs WHERE jobID = '%s'"%(jobID))
+    print("DELETED")
+
+    conn.commit()
 
 
 if __name__ == "__main__":
     CustomerID, Cost, Description = 1, 200.99, "testing the table"
 
     create_table_jobs(filename = 'test.db')
-    insert_jobs_table(CustomerID, Cost, Description, filename = "test.db")
+    insert_jobs_table(CustomerID, Cost, Description)
     print_database(filename="test.db")
 
     print(return_jobs(filename="test.db"))
 
-    create_table_jobs()
+    delete_entry(1,filename="test.db")
+    print_database(filename="test.db")
+
+    print(return_jobs())
+
+
+
+
 
 
 

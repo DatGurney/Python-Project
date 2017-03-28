@@ -1,4 +1,6 @@
 import sqlite3 as SQL
+import CUSTOMER_DATABASE as CDB
+import JOBS_DATABASE as TDB
 
 def create_table_time(filename = 'customer_database.db'):
     conn = SQL.connect(filename)
@@ -14,20 +16,22 @@ def insert_time_table(hours, filename = "customer_database.db"):
     conn = SQL.connect(filename)
     c = conn.cursor()
 
-    c.execute("INSERT INTO time(hours) VALUES (?)",(hours))
+    print("hours", hours)
+
+    c.execute("INSERT INTO time(hours) VALUES ('%s')" %hours)
     conn.commit()
 
 def print_database(filename = "customer_database.db"):
     conn = SQL.connect(filename)
     c = conn.cursor()
 
-    print('Job Data')
-    for row in c.execute('SELECT * FROM jobs'):
+    print('Time Data')
+    for row in c.execute('SELECT * FROM time'):
         print(row)
     print()
 
     print("User Columns")
-    for row in c.execute(("PRAGMA table_info(jobs)")):
+    for row in c.execute(("PRAGMA table_info(time)")):
         print(row)
     print()
 
@@ -41,11 +45,19 @@ def return_time(filename = "customer_database.db"):
     c = conn.cursor()
 
     list = []
-    for row in c.execute("SELECT jobID FROM jobs"):
-        print(row[0])
+    for row in c.execute("SELECT jobID, hours FROM time"):
+        print(row[0], "row 0")
+        print(row[1],"row 1")
+        print(row,"row")
         print("hi")
-        list.append(row[0])
     return list
+
+def innerjoin():
+    #conn = SQL.connect(filename)
+    #c = conn.cursor()
+
+    #conn.commit()
+    print("not done")
 
 
 if __name__ == "__main__":
@@ -57,7 +69,9 @@ if __name__ == "__main__":
 
     print(return_time(filename="test.db"))
 
-    create_table_time()
+
+
+
 
 
 

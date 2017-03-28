@@ -4,7 +4,7 @@ def create_table_customer(filename = 'customer_database.db'):
     conn = SQL.connect(filename)
     c = conn.cursor()
 
-    c.execute("DROP TABLE IF EXISTS customers") #Delete table if it exists
+    #c.execute("DROP TABLE IF EXISTS customers") #Delete table if it exists
     c.execute("CREATE TABLE IF NOT EXISTS customers(CustomerID integer PRIMARY KEY, Name text, Phone_Number text, Address text)")
 
 def insert_customers_table(client, phone, address, filename = "customer_database.db"):
@@ -30,9 +30,9 @@ def return_table(filename = "customer_database.db"):
     c = conn.cursor()
 
     list = []
-    for row in c.execute("SELECT Name FROM customers"):
+    for row in c.execute("SELECT * FROM customers"):
         print(row)
-        print("hi")
+        list.append(row)
     return list
 
 def print_database(filename = "customer_database.db"):
@@ -74,12 +74,24 @@ def delete_entry(name, filename = "customer_database.db"):
 
     conn.commit()
 
+def customer_jobs(name, filename = "customer_database.db"):
+    conn = SQL.connect(filename)
+    c = conn.cursor()
+    result = c.execute("SELECT jobs.jobDesc, jobs.cost FROM jobs INNER JOIN customers ON jobs.customerID = customers.CustomerID WHERE customers.Name = '%s'" % (name))
+    conn.commit()
+    print(result,"result")
+    return result
+
 if __name__ == "__main__":
     Client, Phone, Address = "John", "01423772291", "4 new row harrogate"
     create_table_customer(filename="test.db")
     insert_customers_table(Client,Phone,Address, filename="test.db")
     print_database(filename="test.db")
     return_table(filename="test.db")
+    insert_customers_table(Client,Phone,Address)
+    print(return_table())
+    for row in customer_jobs('John'):
+        print(row,"printing row")
 
 
 
