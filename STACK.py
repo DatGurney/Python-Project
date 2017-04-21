@@ -38,7 +38,7 @@ if __name__ == "__main__":
 
     print('Unit Test')
     print("=========")
-    my_stack = stack(2)
+    my_stack = stack(3)
     my_stack.push_stack(5)
     my_stack.push_stack(7)
     print(my_stack.print_stack())

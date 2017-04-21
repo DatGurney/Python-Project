@@ -54,6 +54,13 @@ def print_database(filename = "customer_database.db"):
         print(row)
     print()
 
+def customer_id(name,filename = 'customer_database.db'):
+    conn = SQL.connect(filename)
+    c = conn.cursor()
+
+    for row in c.execute("SELECT CustomerID FROM customers WHERE Name = '%s'"%(name)):
+        print(row)
+
 #def job_query(CustomerID, filename = 'customer_database.db'):
 #    conn = SQL.connect(filename)
 #    c = conn.cursor()
@@ -77,7 +84,7 @@ def delete_entry(name, filename = "customer_database.db"):
 def customer_jobs(name, filename = "customer_database.db"):
     conn = SQL.connect(filename)
     c = conn.cursor()
-    result = c.execute("SELECT jobs.jobDesc, jobs.cost FROM jobs INNER JOIN customers ON jobs.customerID = customers.CustomerID WHERE customers.Name = '%s'" % (name))
+    result = c.execute("SELECT jobs.jobDesc, jobs.cost, FROM jobs INNER JOIN customers ON jobs.customerID = customers.CustomerID WHERE customers.Name = '%s'" % (name))
     conn.commit()
     print(result,"result")
     return result
@@ -90,9 +97,11 @@ if __name__ == "__main__":
     return_table(filename="test.db")
     insert_customers_table(Client,Phone,Address)
     print(return_table())
-    for row in customer_jobs('John'):
-        print(row,"printing row")
+    #for row in customer_jobs('John'):
+    #    print(row,"printing row")
 
+    print("Customer ID")
+    customer_id("John")
 
 
 
